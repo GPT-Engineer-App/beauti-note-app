@@ -15,13 +15,18 @@ const Index = () => {
   const [currentNote, setCurrentNote] = useState({ id: null, title: "", content: "" });
 
   const handleAddNote = () => {
-    const newNote = { id: Date.now(), title: "New Note", content: "" };
-    setNotes([...notes, newNote]);
+    const newNote = { id: Date.now(), title: "", content: "" };
     setCurrentNote(newNote);
   };
 
   const handleSaveNote = () => {
-    setNotes(notes.map(note => (note.id === currentNote.id ? currentNote : note)));
+    if (currentNote.id) {
+      setNotes(notes.map(note => (note.id === currentNote.id ? currentNote : note)));
+    } else {
+      const newNote = { ...currentNote, id: Date.now() };
+      setNotes([...notes, newNote]);
+      setCurrentNote(newNote);
+    }
   };
 
   const handleNoteClick = (note) => {
